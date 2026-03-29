@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Netto-Rechner Deutschland</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f2ec;
+    --cream: #ede9e0;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --red: #c0392b;
+    --green: #1a7a4a;
+    --border: #2a2a2a;
+    --muted: #6b6b6b;
+    --card: #141414;
+    --input-bg: #1c1c1c;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+
+  /* HEADER */
+  header {
+    max-width: 820px;
+    margin: 0 auto 48px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+  }
+  .label-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--white);
+  }
+  h1 span { color: var(--gold); }
+  .subtitle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* LAYOUT */
+  .layout {
+    max-width: 820px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .panel {
+    background: var(--card);
+    padding: 32px 28px;
+  }
+  .panel-full { grid-column: 1 / -1; }
+
+  .panel-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* INPUTS */
+  .field { margin-bottom: 20px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  input[type="number"], select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    padding: 12px 14px;
+    outline: none;
+    appearance: none;
+    transition: border-color 0.2s;
+  }
+  input[type="number"]:focus, select:focus {
+    border-color: var(--gold);
+  }
+  input[type="number"]::placeholder { color: #3a3a3a; }
+
+  select option { background: #1c1c1c; }
+
+  .input-prefix {
+    position: relative;
+  }
+  .input-prefix span {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  /* TOGGLE */
+  .toggle-group {
+    display: flex;
+    gap: 2px;
+    background: var(--border);
+    padding: 2px;
+    margin-bottom: 20px;
+  }
+  .toggle-group button {
+    flex: 1;
+    padding: 9px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toggle-group button.active {
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 500;
+  }
+
+  /* STEUERKLASSE */
+  .sk-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    background: var(--border);
+    padding: 2px;
+  }
+  .sk-btn {
+    padding: 10px 0;
+    background: var(--input-bg);
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .sk-btn.active {
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 500;
+  }
+  .sk-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+    min-height: 16px;
+  }
+
+  /* CALCULATE BUTTON */
+  .btn-calc {
+    width: 100%;
+    padding: 16px;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+    margin-top: 4px;
+  }
+  .btn-calc:hover { background: var(--gold-light); }
+
+  /* RESULTS */
+  #results { display: none; }
+
+  .net-display {
+    text-align: center;
+    padding: 28px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .net-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .net-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+  }
+  .net-annual {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* BREAKDOWN TABLE */
+  .breakdown { width: 100%; border-collapse: collapse; }
+  .breakdown tr { border-bottom: 1px solid #1f1f1f; }
+  .breakdown tr:last-child { border-bottom: none; }
+  .breakdown td {
+    padding: 10px 0;
+    font-size: 13px;
+  }
+  .breakdown td:last-child {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--red);
+  }
+  .breakdown .row-gross td { color: var(--white); font-weight: 500; }
+  .breakdown .row-gross td:last-child { color: var(--white); }
+  .breakdown .row-net td { color: var(--green); font-weight: 500; }
+  .breakdown .row-net td:last-child { color: var(--green); }
+  .breakdown .row-section td {
+    padding-top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* BAR CHART */
+  .bar-wrap { margin-top: 28px; }
+  .bar-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .bar-row { margin-bottom: 10px; }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .bar-meta span:first-child { color: var(--muted); }
+  .bar-meta span:last-child { font-family: 'DM Mono', monospace; color: var(--white); }
+  .bar-track {
+    height: 6px;
+    background: #1f1f1f;
+    position: relative;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    max-width: 820px;
+    margin: 20px auto 0;
+    font-size: 11px;
+    color: #3a3a3a;
+    text-align: center;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .layout { grid-template-columns: 1fr; }
+    .panel-full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="label-tag">🇩🇪 Gehaltsrechner 2025</p>
+  <h1>Brutto → <span>Netto</span></h1>
+  <p class="subtitle">Berechnung inkl. Lohnsteuer, Sozialabgaben & Krankenversicherung</p>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT: Salary Input -->
+  <div class="panel">
+    <p class="panel-title">01 — Gehalt</p>
+
+    <div class="toggle-group" id="modeToggle">
+      <button class="active" onclick="setMode('monthly')">Monatlich</button>
+      <button onclick="setMode('annual')">Jährlich</button>
+    </div>
+
+    <div class="field">
+      <label id="salaryLabel">Bruttogehalt (monatlich)</label>
+      <div class="input-prefix">
+        <input type="number" id="salaryInput" placeholder="4000" min="0" max="500000" step="100" />
+        <span>€</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Tax Class -->
+  <div class="panel">
+    <p class="panel-title">02 — Steuerklasse</p>
+    <div class="sk-grid" id="skGrid">
+      <button class="sk-btn active" data-sk="1" onclick="setSK(1)">I</button>
+      <button class="sk-btn" data-sk="2" onclick="setSK(2)">II</button>
+      <button class="sk-btn" data-sk="3" onclick="setSK(3)">III</button>
+      <button class="sk-btn" data-sk="4" onclick="setSK(4)">IV</button>
+      <button class="sk-btn" data-sk="5" onclick="setSK(5)">V</button>
+      <button class="sk-btn" data-sk="6" onclick="setSK(6)">VI</button>
+    </div>
+    <p class="sk-desc" id="skDesc">Ledig, getrennt oder geschieden</p>
+  </div>
+
+  <!-- FULL: Health Insurance + Calculate -->
+  <div class="panel panel-full">
+    <p class="panel-title">03 — Krankenversicherung</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;">
+      <div class="field" style="margin-bottom:0">
+        <label>Art der Versicherung</label>
+        <select id="kvType" onchange="togglePrivate()">
+          <option value="public">Gesetzlich (GKV)</option>
+          <option value="private">Privat (PKV)</option>
+        </select>
+      </div>
+      <div class="field" id="privateField" style="margin-bottom:0;display:none">
+        <label>Monatlicher PKV-Beitrag</label>
+        <div class="input-prefix">
+          <input type="number" id="privateKV" placeholder="400" min="0" max="2000" step="10" />
+          <span>€</span>
+        </div>
+      </div>
+      <div class="field" id="publicExtra" style="margin-bottom:0">
+        <label>Zusatzbeitrag der Kasse (%)</label>
+        <div class="input-prefix">
+          <input type="number" id="extraKV" placeholder="1.7" min="0" max="5" step="0.1" value="1.7" />
+          <span>%</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn-calc" onclick="calculate()" style="margin-top:24px;">Netto berechnen →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="panel" id="results" style="display:none">
+    <p class="panel-title">04 — Ergebnis</p>
+    <div class="net-display">
+      <p class="net-label">Netto / Monat</p>
+      <p class="net-amount" id="netMonthly">—</p>
+      <p class="net-annual" id="netAnnual">—</p>
+    </div>
+
+    <table class="breakdown" id="breakdownTable"></table>
+
+    <div class="bar-wrap">
+      <p class="bar-title">Verteilung</p>
+      <div id="barChart"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="resultsRight" style="display:none">
+    <p class="panel-title">05 — Jahresübersicht</p>
+    <table class="breakdown" id="annualTable"></table>
+  </div>
+
+</div>
+
+<p class="disclaimer">* Schätzung. Keine Steuerberatung. Abweichungen möglich je nach individuellem Sachverhalt.</p>
+
+<script>
+  // ─── STATE ───────────────────────────────────────────────────────────────
+  let mode = 'monthly';   // 'monthly' | 'annual'
+  let sk = 1;
+
+  const skDescriptions = {
+    1: 'Ledig, getrennt oder geschieden',
+    2: 'Alleinerziehend (Entlastungsbetrag)',
+    3: 'Verheiratet – höheres Einkommen',
+    4: 'Verheiratet – ähnliche Einkommen',
+    5: 'Verheiratet – geringeres Einkommen',
+    6: 'Zweiter Job / Nebentätigkeit'
+  };
+
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('#modeToggle button').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && m === 'monthly') || (i === 1 && m === 'annual'));
+    });
+    document.getElementById('salaryLabel').textContent =
+      m === 'monthly' ? 'Bruttogehalt (monatlich)' : 'Bruttogehalt (jährlich)';
+    document.getElementById('salaryInput').placeholder = m === 'monthly' ? '4000' : '48000';
+  }
+
+  function setSK(n) {
+    sk = n;
+    document.querySelectorAll('.sk-btn').forEach(b => b.classList.toggle('active', +b.dataset.sk === n));
+    document.getElementById('skDesc').textContent = skDescriptions[n];
+  }
+
+  function togglePrivate() {
+    const isPrivate = document.getElementById('kvType').value === 'private';
+    document.getElementById('privateField').style.display = isPrivate ? '' : 'none';
+    document.getElementById('publicExtra').style.display = isPrivate ? 'none' : '';
+  }
+
+  // ─── TAX CALCULATION ─────────────────────────────────────────────────────
+  function calcIncomeTax(annualGross, taxClass) {
+    // 2025 German income tax formula (§32a EStG approximation)
+    // Basic allowances per tax class
+    const allowances = { 1: 11784, 2: 11784, 3: 23568, 4: 11784, 5: 0, 6: 0 };
+    const allowance = allowances[taxClass] || 0;
+
+    let taxable = Math.max(0, annualGross - allowance);
+
+    // Additional allowance for SK2
+    if (taxClass === 2) taxable = Math.max(0, taxable - 4260);
+
+    let tax = 0;
+    if (taxable <= 0) {
+      tax = 0;
+    } else if (taxable <= 17005) {
+      const y = (taxable - 11784) / 10000;
+      tax = (979.18 * y + 1400) * y;
+    } else if (taxable <= 66760) {
+      const z = (taxable - 17005) / 10000;
+      tax = (192.59 * z + 2397) * z + 1025.38;
+    } else if (taxable <= 277826) {
+      tax = taxable * 0.42 - 10602.13;
+    } else {
+      tax = taxable * 0.45 - 18936.88;
+    }
+
+    tax = Math.max(0, tax);
+
+    // SK3: split method (partner in SK5 has no income assumed)
+    // Approximate by halving taxable, doubling tax
+    if (taxClass === 3) {
+      const half = annualGross / 2;
+      tax = 2 * calcIncomeTax(half, 1);
+      return tax;
+    }
+
+    // SK5: approximately 2× SK1 rate
+    if (taxClass === 5) tax = tax * 1.25;
+    // SK6: flat high rate
+    if (taxClass === 6) tax = taxable * 0.42;
+
+    return Math.max(0, tax);
+  }
+
+  function fmt(n) {
+    return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  }
+
+  function calculate() {
+    const rawVal = parseFloat(document.getElementById('salaryInput').value);
+    if (!rawVal || rawVal <= 0) { alert('Bitte Bruttogehalt eingeben.'); return; }
+
+    const grossMonthly = mode === 'monthly' ? rawVal : rawVal / 12;
+    const grossAnnual  = grossMonthly * 12;
+
+    const kvType      = document.getElementById('kvType').value;
+    const extraKVRate = parseFloat(document.getElementById('extraKV').value || 1.7) / 100;
+    const privateKV   = parseFloat(document.getElementById('privateKV').value || 0);
+
+    // ── Social insurance rates 2025 ──────────────────────────────────────
+    const BBG_RV  = 7550;   // monthly ceiling Rentenversicherung (West)
+    const BBG_KV  = 5512.5; // monthly ceiling GKV/PV
+    const BBG_ALV = 7550;
+
+    const rateRV  = 0.093;   // employee share 9.3%
+    const rateALV = 0.013;   // 1.3%
+    const rateKV  = 0.073;   // base 7.3%
+    const ratePV  = 0.0170;  // Pflegeversicherung 1.70% (no children surcharge simplified)
+
+    const baseRV  = Math.min(grossMonthly, BBG_RV);
+    const baseKV  = Math.min(grossMonthly, BBG_KV);
+
+    const rv   = baseRV  * rateRV;
+    const alv  = Math.min(grossMonthly, BBG_ALV) * rateALV;
+    const pv   = baseKV  * ratePV;
+
+    let kvMonthly;
+    if (kvType === 'public') {
+      kvMonthly = baseKV * (rateKV + extraKVRate);
+    } else {
+      kvMonthly = privateKV;
+    }
+
+    // ── Taxes ────────────────────────────────────────────────────────────
+    const annualIncomeTax = calcIncomeTax(grossAnnual, sk);
+    const monthlyIncomeTax = annualIncomeTax / 12;
+
+    // Soli: 5.5% of income tax, only above threshold
+    const soliAnnual  = annualIncomeTax > 17543 ? annualIncomeTax * 0.055 : 0;
+    const soliMonthly = soliAnnual / 12;
+
+    // ── Net ──────────────────────────────────────────────────────────────
+    const totalDeductionsMonthly = monthlyIncomeTax + soliMonthly + rv + alv + kvMonthly + pv;
+    const netMonthly = grossMonthly - totalDeductionsMonthly;
+    const netAnnual  = netMonthly * 12;
+
+    // ── Display ──────────────────────────────────────────────────────────
+    document.getElementById('results').style.display = '';
+    document.getElementById('resultsRight').style.display = '';
+
+    document.getElementById('netMonthly').textContent = fmt(netMonthly);
+    document.getElementById('netAnnual').textContent  = fmt(netAnnual) + ' / Jahr';
+
+    // Breakdown table (monthly)
+    const rows = [
+      { label: 'Bruttogehalt', value: grossMonthly, cls: 'row-gross' },
+      { label: '— Einkommensteuer', value: -monthlyIncomeTax },
+      { label: '— Solidaritätszuschlag', value: -soliMonthly },
+      { label: 'Sozialabgaben', value: null, cls: 'row-section' },
+      { label: '— Rentenversicherung (9,3%)', value: -rv },
+      { label: '— Arbeitslosenversicherung (1,3%)', value: -alv },
+      { label: kvType === 'public' ? `— Krankenversicherung (${(7.3 + extraKVRate*100).toFixed(1)}%)` : '— Krankenversicherung (PKV)', value: -kvMonthly },
+      { label: '— Pflegeversicherung (1,70%)', value: -pv },
+      { label: 'Nettoeinkommen', value: netMonthly, cls: 'row-net' },
+    ];
+
+    const breakTbl = document.getElementById('breakdownTable');
+    breakTbl.innerHTML = rows.map(r => {
+      if (r.value === null) return `<tr class="${r.cls||''}"><td colspan="2">${r.label}</td></tr>`;
+      const disp = r.value < 0 ? '−' + fmt(Math.abs(r.value)) : fmt(r.value);
+      return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
+    }).join('');
+
+    // Annual table
+    const annTbl = document.getElementById('annualTable');
+    annTbl.innerHTML = [
+      { label: 'Brutto / Jahr', value: grossAnnual, cls: 'row-gross' },
+      { label: '— Einkommensteuer', value: -annualIncomeTax },
+      { label: '— Solidaritätszuschlag', value: -soliAnnual },
+      { label: '— Rentenversicherung', value: -rv * 12 },
+      { label: '— Arbeitslosenversicherung', value: -alv * 12 },
+      { label: '— Krankenversicherung', value: -kvMonthly * 12 },
+      { label: '— Pflegeversicherung', value: -pv * 12 },
+      { label: 'Netto / Jahr', value: netAnnual, cls: 'row-net' },
+    ].map(r => {
+      const disp = r.value < 0 ? '−' + fmt(Math.abs(r.value)) : fmt(r.value);
+      return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
+    }).join('');
+
+    // Bar chart
+    const bars = [
+      { label: 'Nettoeinkommen', val: netMonthly, color: '#1a7a4a' },
+      { label: 'Einkommensteuer', val: monthlyIncomeTax, color: '#c0392b' },
+      { label: 'Krankenversicherung', val: kvMonthly, color: '#e67e22' },
+      { label: 'Rentenversicherung', val: rv, color: '#8e44ad' },
+      { label: 'Pflegeversicherung', val: pv, color: '#2980b9' },
+      { label: 'Arbeitslosenversicherung', val: alv, color: '#7f8c8d' },
+    ];
+    const maxVal = grossMonthly;
+    document.getElementById('barChart').innerHTML = bars.map(b => `
+      <div class="bar-row">
+        <div class="bar-meta">
+          <span>${b.label}</span>
+          <span>${fmt(b.val)} (${((b.val/grossMonthly)*100).toFixed(1)}%)</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="background:${b.color};width:${(b.val/maxVal*100).toFixed(1)}%"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+</script>
+</body>
+</html>
