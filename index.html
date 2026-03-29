@@ -9,23 +9,25 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --black: #0d0d0d;
-    --white: #f5f2ec;
-    --cream: #ede9e0;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --red: #c0392b;
-    --green: #1a7a4a;
-    --border: #2a2a2a;
-    --muted: #6b6b6b;
-    --card: #141414;
-    --input-bg: #1c1c1c;
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --ink: #1a1a1a;
+    --ink2: #3d3d3d;
+    --accent: #2f6b4f;
+    --accent-light: #e8f3ed;
+    --accent-hover: #245540;
+    --red: #b83232;
+    --green: #1e6e42;
+    --border: #ddd9d0;
+    --muted: #8a8680;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.05);
   }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--black);
-    color: var(--white);
+    background: var(--bg);
+    color: var(--ink);
     min-height: 100vh;
     padding: 40px 20px 80px;
   }
@@ -34,7 +36,7 @@
   header {
     max-width: 820px;
     margin: 0 auto 48px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
     padding-bottom: 32px;
   }
   .label-tag {
@@ -42,7 +44,7 @@
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--accent);
     margin-bottom: 12px;
   }
   h1 {
@@ -50,9 +52,9 @@
     font-size: clamp(2rem, 5vw, 3.2rem);
     font-weight: 900;
     line-height: 1.1;
-    color: var(--white);
+    color: var(--ink);
   }
-  h1 span { color: var(--gold); }
+  h1 span { color: var(--accent); }
   .subtitle {
     margin-top: 10px;
     font-size: 14px;
@@ -66,14 +68,15 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: var(--border);
-    border: 1px solid var(--border);
+    gap: 16px;
   }
 
   .panel {
-    background: var(--card);
+    background: var(--surface);
     padding: 32px 28px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
   }
   .panel-full { grid-column: 1 / -1; }
 
@@ -82,7 +85,7 @@
     font-size: 10px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--accent);
     margin-bottom: 24px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
@@ -102,22 +105,24 @@
 
   input[type="number"], select {
     width: 100%;
-    background: var(--input-bg);
+    background: var(--surface2);
     border: 1px solid var(--border);
-    color: var(--white);
+    color: var(--ink);
     font-family: 'DM Mono', monospace;
     font-size: 16px;
     padding: 12px 14px;
     outline: none;
     appearance: none;
-    transition: border-color 0.2s;
+    border-radius: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   input[type="number"]:focus, select:focus {
-    border-color: var(--gold);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(47,107,79,0.12);
   }
-  input[type="number"]::placeholder { color: #3a3a3a; }
+  input[type="number"]::placeholder { color: #bbb8b2; }
 
-  select option { background: #1c1c1c; }
+  select option { background: #fff; color: var(--ink); }
 
   .input-prefix {
     position: relative;
@@ -136,16 +141,19 @@
   /* TOGGLE */
   .toggle-group {
     display: flex;
-    gap: 2px;
-    background: var(--border);
-    padding: 2px;
+    gap: 4px;
+    background: var(--surface2);
+    padding: 4px;
     margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
   }
   .toggle-group button {
     flex: 1;
     padding: 9px;
     background: transparent;
     border: none;
+    border-radius: 4px;
     color: var(--muted);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -155,23 +163,23 @@
     transition: all 0.2s;
   }
   .toggle-group button.active {
-    background: var(--gold);
-    color: var(--black);
+    background: var(--accent);
+    color: #fff;
     font-weight: 500;
+    box-shadow: 0 1px 4px rgba(47,107,79,0.25);
   }
 
   /* STEUERKLASSE */
   .sk-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 2px;
-    background: var(--border);
-    padding: 2px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
   }
   .sk-btn {
     padding: 10px 0;
-    background: var(--input-bg);
-    border: none;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
     color: var(--muted);
     font-family: 'DM Mono', monospace;
     font-size: 14px;
@@ -179,10 +187,13 @@
     transition: all 0.2s;
     text-align: center;
   }
+  .sk-btn:hover { border-color: var(--accent); color: var(--accent); }
   .sk-btn.active {
-    background: var(--gold);
-    color: var(--black);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
     font-weight: 500;
+    box-shadow: 0 1px 4px rgba(47,107,79,0.25);
   }
   .sk-desc {
     font-size: 11px;
@@ -196,34 +207,52 @@
   .btn-calc {
     width: 100%;
     padding: 16px;
-    background: var(--gold);
-    color: var(--black);
+    background: var(--accent);
+    color: #fff;
     border: none;
+    border-radius: 5px;
     font-family: 'DM Mono', monospace;
     font-size: 13px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     cursor: pointer;
     font-weight: 500;
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
     margin-top: 4px;
+    box-shadow: 0 2px 8px rgba(47,107,79,0.25);
   }
-  .btn-calc:hover { background: var(--gold-light); }
+  .btn-calc:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 14px rgba(47,107,79,0.3);
+  }
 
   /* RESULTS */
   #results { display: none; }
 
-  .net-display {
-    text-align: center;
-    padding: 28px 0 20px;
-    border-bottom: 1px solid var(--border);
+  .net-display-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background: var(--accent-light);
+    border-radius: 6px;
     margin-bottom: 24px;
+    padding: 24px 16px;
+    gap: 0;
+  }
+  .net-box {
+    text-align: center;
+    padding: 0 12px;
+  }
+  .net-divider {
+    width: 1px;
+    height: 48px;
+    background: rgba(47,107,79,0.2);
   }
   .net-label {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.2em;
-    color: var(--muted);
+    color: var(--accent);
     text-transform: uppercase;
     margin-bottom: 4px;
   }
@@ -231,7 +260,7 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.2rem, 5vw, 3rem);
     font-weight: 700;
-    color: var(--gold);
+    color: var(--accent);
     letter-spacing: -0.02em;
   }
   .net-annual {
@@ -243,11 +272,12 @@
 
   /* BREAKDOWN TABLE */
   .breakdown { width: 100%; border-collapse: collapse; }
-  .breakdown tr { border-bottom: 1px solid #1f1f1f; }
+  .breakdown tr { border-bottom: 1px solid var(--border); }
   .breakdown tr:last-child { border-bottom: none; }
   .breakdown td {
     padding: 10px 0;
     font-size: 13px;
+    color: var(--ink2);
   }
   .breakdown td:last-child {
     text-align: right;
@@ -255,8 +285,8 @@
     font-size: 13px;
     color: var(--red);
   }
-  .breakdown .row-gross td { color: var(--white); font-weight: 500; }
-  .breakdown .row-gross td:last-child { color: var(--white); }
+  .breakdown .row-gross td { color: var(--ink); font-weight: 500; }
+  .breakdown .row-gross td:last-child { color: var(--ink); }
   .breakdown .row-net td { color: var(--green); font-weight: 500; }
   .breakdown .row-net td:last-child { color: var(--green); }
   .breakdown .row-section td {
@@ -286,29 +316,118 @@
     margin-bottom: 4px;
   }
   .bar-meta span:first-child { color: var(--muted); }
-  .bar-meta span:last-child { font-family: 'DM Mono', monospace; color: var(--white); }
+  .bar-meta span:last-child { font-family: 'DM Mono', monospace; color: var(--ink2); }
   .bar-track {
-    height: 6px;
-    background: #1f1f1f;
+    height: 7px;
+    background: var(--surface2);
+    border-radius: 99px;
     position: relative;
     overflow: hidden;
+    border: 1px solid var(--border);
   }
   .bar-fill {
     height: 100%;
+    border-radius: 99px;
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     width: 0%;
   }
 
   /* DISCLAIMER */
-  .disclaimer {
+  .disclaimer-box {
     max-width: 820px;
-    margin: 20px auto 0;
-    font-size: 11px;
-    color: #3a3a3a;
-    text-align: center;
-    font-style: italic;
+    margin: 24px auto 0;
+    border: 1px solid #ddd0b8;
+    background: #fffdf6;
+    padding: 24px 28px;
+    border-radius: 6px;
+    border-left: 4px solid #c9a84c;
   }
+  .disclaimer-box .disc-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .disclaimer-box .disc-icon {
+    width: 28px;
+    height: 28px;
+    background: #fdf3da;
+    border: 1px solid #c9a84c;
+    color: #a07c2a;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    border-radius: 4px;
+  }
+  .disclaimer-box .disc-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #a07c2a;
+  }
+  .disclaimer-box p {
+    font-size: 12px;
+    color: #8a7a55;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .disclaimer-box p:last-child { margin-bottom: 0; }
+  .disclaimer-box strong { color: #6b5c35; font-weight: 500; }
 
+  /* DIRECTION SELECTOR */
+  .direction-selector {
+    max-width: 820px;
+    margin: 0 auto 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .dir-btn {
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+  }
+  .dir-btn:hover { border-color: var(--accent); }
+  .dir-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .dir-btn .dir-arrow {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .dir-btn .dir-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dir-btn .dir-desc {
+    font-size: 12px;
+    color: var(--muted);
+    display: block;
+  }
+  @media (max-width: 600px) {
+    .direction-selector { grid-template-columns: 1fr; }
+  }
   @media (max-width: 600px) {
     .layout { grid-template-columns: 1fr; }
     .panel-full { grid-column: 1; }
@@ -319,9 +438,23 @@
 
 <header>
   <p class="label-tag">🇩🇪 Gehaltsrechner 2025</p>
-  <h1>Brutto → <span>Netto</span></h1>
+  <h1 id="mainTitle">Brutto → <span>Netto</span></h1>
   <p class="subtitle">Berechnung inkl. Lohnsteuer, Sozialabgaben & Krankenversicherung</p>
 </header>
+
+<!-- DIRECTION SELECTOR -->
+<div class="direction-selector">
+  <button class="dir-btn active" id="dirBrutto" onclick="setDirection('brutto')">
+    <span class="dir-arrow">Brutto → Netto</span>
+    <span class="dir-title">Direkte Berechnung</span>
+    <span class="dir-desc">Bruttogehalt eingeben → Netto erhalten</span>
+  </button>
+  <button class="dir-btn" id="dirNetto" onclick="setDirection('netto')">
+    <span class="dir-arrow">Netto → Brutto</span>
+    <span class="dir-title">Umgekehrte Berechnung</span>
+    <span class="dir-desc">Gewünschtes Netto eingeben → Brutto berechnen</span>
+  </button>
+</div>
 
 <div class="layout">
 
@@ -348,11 +481,8 @@
     <p class="panel-title">02 — Steuerklasse</p>
     <div class="sk-grid" id="skGrid">
       <button class="sk-btn active" data-sk="1" onclick="setSK(1)">I</button>
-      <button class="sk-btn" data-sk="2" onclick="setSK(2)">II</button>
       <button class="sk-btn" data-sk="3" onclick="setSK(3)">III</button>
       <button class="sk-btn" data-sk="4" onclick="setSK(4)">IV</button>
-      <button class="sk-btn" data-sk="5" onclick="setSK(5)">V</button>
-      <button class="sk-btn" data-sk="6" onclick="setSK(6)">VI</button>
     </div>
     <p class="sk-desc" id="skDesc">Ledig, getrennt oder geschieden</p>
   </div>
@@ -364,7 +494,7 @@
       <div class="field" style="margin-bottom:0">
         <label>Art der Versicherung</label>
         <select id="kvType" onchange="togglePrivate()">
-          <option value="public">Gesetzlich (GKV)</option>
+          <option value="public">Gesetzlich (GKV) — 14,6%</option>
           <option value="private">Privat (PKV)</option>
         </select>
       </div>
@@ -376,23 +506,30 @@
         </div>
       </div>
       <div class="field" id="publicExtra" style="margin-bottom:0">
-        <label>Zusatzbeitrag der Kasse (%)</label>
+        <label>Zusatzbeitrag der Kasse — Gesamt: <span id="kvTotalRate">14,60%</span></label>
         <div class="input-prefix">
-          <input type="number" id="extraKV" placeholder="1.7" min="0" max="5" step="0.1" value="1.7" />
+          <input type="number" id="extraKV" placeholder="1.7" min="0" max="5" step="0.1" value="1.7" oninput="updateKVRate()" />
           <span>%</span>
         </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:5px;font-style:italic;">Basisbeitrag 14,6% + Zusatzbeitrag (Arbeitnehmeranteil je 50%)</p>
       </div>
     </div>
-    <button class="btn-calc" onclick="calculate()" style="margin-top:24px;">Netto berechnen →</button>
+    <button class="btn-calc" id="calcBtn" onclick="calculate()" style="margin-top:24px;">Netto berechnen →</button>
   </div>
 
   <!-- RESULTS -->
   <div class="panel" id="results" style="display:none">
-    <p class="panel-title">04 — Ergebnis</p>
-    <div class="net-display">
-      <p class="net-label">Netto / Monat</p>
-      <p class="net-amount" id="netMonthly">—</p>
-      <p class="net-annual" id="netAnnual">—</p>
+    <p class="panel-title" id="resultPanelTitle">04 — Ergebnis</p>
+    <div class="net-display-row">
+      <div class="net-box">
+        <p class="net-label" id="resLabelMonthly">Netto / Monat</p>
+        <p class="net-amount" id="netMonthly">—</p>
+      </div>
+      <div class="net-divider"></div>
+      <div class="net-box">
+        <p class="net-label" id="resLabelAnnual">Netto / Jahr</p>
+        <p class="net-amount" id="netAnnual">—</p>
+      </div>
     </div>
 
     <table class="breakdown" id="breakdownTable"></table>
@@ -410,26 +547,88 @@
 
 </div>
 
-<p class="disclaimer">* Schätzung. Keine Steuerberatung. Abweichungen möglich je nach individuellem Sachverhalt.</p>
+<div class="disclaimer-box">
+  <div class="disc-header">
+    <div class="disc-icon">!</div>
+    <p class="disc-title">Disclaimer — Wichtiger Hinweis</p>
+  </div>
+  <p>
+    <strong>This tool is created for educational and study purposes only.</strong>
+    It is not intended to constitute legal, tax, or financial advice of any kind.
+    The calculations provided are estimates based on general 2025 German tax and social insurance rates
+    and do not account for individual circumstances, exemptions, deductions, or other personal factors.
+  </p>
+  <p>
+    <strong>No liability is accepted</strong> for the accuracy, completeness, or timeliness of the results.
+    Tax laws and contribution rates may change. Actual net salary may differ significantly based on
+    your personal tax situation, additional income, Werbungskosten, Sonderausgaben, church tax,
+    children allowances, or employer-specific agreements.
+  </p>
+  <p>
+    For a precise calculation, please consult a certified tax advisor (<em>Steuerberater</em>)
+    or use the official <em>Lohnsteuerrechner</em> provided by the German Federal Ministry of Finance
+    at <strong>bmf-steuerrechner.de</strong>.
+  </p>
+</div>
 
 <script>
   // ─── STATE ───────────────────────────────────────────────────────────────
   let mode = 'monthly';   // 'monthly' | 'annual'
   let sk = 1;
+  let direction = 'brutto'; // 'brutto' | 'netto'
 
   const skDescriptions = {
     1: 'Ledig, getrennt oder geschieden',
     3: 'Verheiratet – höheres Einkommen',
+    4: 'Verheiratet – ähnliche Einkommen'
   };
+
+  function setDirection(d) {
+    direction = d;
+    document.getElementById('dirBrutto').classList.toggle('active', d === 'brutto');
+    document.getElementById('dirNetto').classList.toggle('active', d === 'netto');
+
+    // Update header
+    const titleEl = document.getElementById('mainTitle');
+    titleEl.innerHTML = d === 'brutto'
+      ? 'Brutto → <span>Netto</span>'
+      : 'Netto → <span>Brutto</span>';
+
+    // Update input label & placeholder
+    const lbl = document.getElementById('salaryLabel');
+    const inp = document.getElementById('salaryInput');
+    if (d === 'brutto') {
+      lbl.textContent = mode === 'monthly' ? 'Bruttogehalt (monatlich)' : 'Bruttogehalt (jährlich)';
+      inp.placeholder = mode === 'monthly' ? '4000' : '48000';
+    } else {
+      lbl.textContent = mode === 'monthly' ? 'Gewünschtes Netto (monatlich)' : 'Gewünschtes Netto (jährlich)';
+      inp.placeholder = mode === 'monthly' ? '2800' : '33600';
+    }
+
+    // Update button
+    document.getElementById('calcBtn').textContent =
+      d === 'brutto' ? 'Netto berechnen →' : 'Brutto berechnen →';
+
+    // Hide previous results
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('resultsRight').style.display = 'none';
+    inp.value = '';
+  }
 
   function setMode(m) {
     mode = m;
     document.querySelectorAll('#modeToggle button').forEach((b, i) => {
       b.classList.toggle('active', (i === 0 && m === 'monthly') || (i === 1 && m === 'annual'));
     });
-    document.getElementById('salaryLabel').textContent =
-      m === 'monthly' ? 'Bruttogehalt (monatlich)' : 'Bruttogehalt (jährlich)';
-    document.getElementById('salaryInput').placeholder = m === 'monthly' ? '4000' : '48000';
+    if (direction === 'brutto') {
+      document.getElementById('salaryLabel').textContent =
+        m === 'monthly' ? 'Bruttogehalt (monatlich)' : 'Bruttogehalt (jährlich)';
+      document.getElementById('salaryInput').placeholder = m === 'monthly' ? '4000' : '48000';
+    } else {
+      document.getElementById('salaryLabel').textContent =
+        m === 'monthly' ? 'Gewünschtes Netto (monatlich)' : 'Gewünschtes Netto (jährlich)';
+      document.getElementById('salaryInput').placeholder = m === 'monthly' ? '2800' : '33600';
+    }
   }
 
   function setSK(n) {
@@ -442,6 +641,16 @@
     const isPrivate = document.getElementById('kvType').value === 'private';
     document.getElementById('privateField').style.display = isPrivate ? '' : 'none';
     document.getElementById('publicExtra').style.display = isPrivate ? 'none' : '';
+  }
+
+  function updateKVRate() {
+    const extra = parseFloat(document.getElementById('extraKV').value || 0);
+    // Base 14.6% (split 50/50) + extra Zusatzbeitrag (split 50/50)
+    // Employee share: 7.3% + extra/2
+    const employeeTotal = (7.3 + extra / 2).toFixed(2);
+    const totalRate = (14.6 + extra).toFixed(2);
+    document.getElementById('kvTotalRate').textContent =
+      totalRate.replace('.', ',') + '% (AN: ' + employeeTotal.replace('.', ',') + '%)';
   }
 
   // ─── TAX CALCULATION ─────────────────────────────────────────────────────
@@ -494,61 +703,64 @@
   }
 
   function calculate() {
-    const rawVal = parseFloat(document.getElementById('salaryInput').value);
-    if (!rawVal || rawVal <= 0) { alert('Bitte Bruttogehalt eingeben.'); return; }
+    if (direction === 'brutto') {
+      calculateBruttoToNetto();
+    } else {
+      calculateNettoToBrutto();
+    }
+  }
 
-    const grossMonthly = mode === 'monthly' ? rawVal : rawVal / 12;
-    const grossAnnual  = grossMonthly * 12;
-
+  // ─── HELPER: compute all deductions from a given monthly gross ──────────
+  function computeDeductions(grossMonthly) {
     const kvType      = document.getElementById('kvType').value;
     const extraKVRate = parseFloat(document.getElementById('extraKV').value || 1.7) / 100;
     const privateKV   = parseFloat(document.getElementById('privateKV').value || 0);
 
-    // ── Social insurance rates 2025 ──────────────────────────────────────
-    const BBG_RV  = 7550;   // monthly ceiling Rentenversicherung (West)
-    const BBG_KV  = 5512.5; // monthly ceiling GKV/PV
+    const BBG_RV  = 7550;
+    const BBG_KV  = 5512.5;
     const BBG_ALV = 7550;
+    const rateRV  = 0.093;
+    const rateALV = 0.013;
+    const rateKV  = 0.073;
+    const ratePV  = 0.0170;
 
-    const rateRV  = 0.093;   // employee share 9.3%
-    const rateALV = 0.013;   // 1.3%
-    const rateKV  = 0.073;   // base 7.3%
-    const ratePV  = 0.0170;  // Pflegeversicherung 1.70% (no children surcharge simplified)
+    const baseRV = Math.min(grossMonthly, BBG_RV);
+    const baseKV = Math.min(grossMonthly, BBG_KV);
 
-    const baseRV  = Math.min(grossMonthly, BBG_RV);
-    const baseKV  = Math.min(grossMonthly, BBG_KV);
+    const rv  = baseRV * rateRV;
+    const alv = Math.min(grossMonthly, BBG_ALV) * rateALV;
+    const pv  = baseKV * ratePV;
+    const kvMonthly = kvType === 'public' ? baseKV * (rateKV + extraKVRate) : privateKV;
 
-    const rv   = baseRV  * rateRV;
-    const alv  = Math.min(grossMonthly, BBG_ALV) * rateALV;
-    const pv   = baseKV  * ratePV;
-
-    let kvMonthly;
-    if (kvType === 'public') {
-      kvMonthly = baseKV * (rateKV + extraKVRate);
-    } else {
-      kvMonthly = privateKV;
-    }
-
-    // ── Taxes ────────────────────────────────────────────────────────────
-    const annualIncomeTax = calcIncomeTax(grossAnnual, sk);
+    const grossAnnual      = grossMonthly * 12;
+    const annualIncomeTax  = calcIncomeTax(grossAnnual, sk);
     const monthlyIncomeTax = annualIncomeTax / 12;
+    const soliAnnual       = annualIncomeTax > 17543 ? annualIncomeTax * 0.055 : 0;
+    const soliMonthly      = soliAnnual / 12;
 
-    // Soli: 5.5% of income tax, only above threshold
-    const soliAnnual  = annualIncomeTax > 17543 ? annualIncomeTax * 0.055 : 0;
-    const soliMonthly = soliAnnual / 12;
+    const totalMonthly = monthlyIncomeTax + soliMonthly + rv + alv + kvMonthly + pv;
+    return { rv, alv, pv, kvMonthly, monthlyIncomeTax, soliMonthly,
+             annualIncomeTax, soliAnnual, totalMonthly, kvType, extraKVRate };
+  }
 
-    // ── Net ──────────────────────────────────────────────────────────────
-    const totalDeductionsMonthly = monthlyIncomeTax + soliMonthly + rv + alv + kvMonthly + pv;
-    const netMonthly = grossMonthly - totalDeductionsMonthly;
+  // ─── RENDER RESULTS (shared by both directions) ──────────────────────────
+  function renderResults(grossMonthly, deductions) {
+    const { rv, alv, pv, kvMonthly, monthlyIncomeTax, soliMonthly,
+            annualIncomeTax, soliAnnual, kvType, extraKVRate } = deductions;
+
+    const netMonthly = grossMonthly - deductions.totalMonthly;
     const netAnnual  = netMonthly * 12;
+    const grossAnnual = grossMonthly * 12;
 
-    // ── Display ──────────────────────────────────────────────────────────
     document.getElementById('results').style.display = '';
     document.getElementById('resultsRight').style.display = '';
 
     document.getElementById('netMonthly').textContent = fmt(netMonthly);
-    document.getElementById('netAnnual').textContent  = fmt(netAnnual) + ' / Jahr';
+    document.getElementById('netAnnual').textContent  = fmt(netAnnual);
+    document.getElementById('resLabelMonthly').textContent = 'Netto / Monat';
+    document.getElementById('resLabelAnnual').textContent  = 'Netto / Jahr';
+    document.getElementById('resultPanelTitle').textContent = '04 — Ergebnis';
 
-    // Breakdown table (monthly)
     const rows = [
       { label: 'Bruttogehalt', value: grossMonthly, cls: 'row-gross' },
       { label: '— Einkommensteuer', value: -monthlyIncomeTax },
@@ -561,16 +773,13 @@
       { label: 'Nettoeinkommen', value: netMonthly, cls: 'row-net' },
     ];
 
-    const breakTbl = document.getElementById('breakdownTable');
-    breakTbl.innerHTML = rows.map(r => {
+    document.getElementById('breakdownTable').innerHTML = rows.map(r => {
       if (r.value === null) return `<tr class="${r.cls||''}"><td colspan="2">${r.label}</td></tr>`;
       const disp = r.value < 0 ? '−' + fmt(Math.abs(r.value)) : fmt(r.value);
       return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
     }).join('');
 
-    // Annual table
-    const annTbl = document.getElementById('annualTable');
-    annTbl.innerHTML = [
+    document.getElementById('annualTable').innerHTML = [
       { label: 'Brutto / Jahr', value: grossAnnual, cls: 'row-gross' },
       { label: '— Einkommensteuer', value: -annualIncomeTax },
       { label: '— Solidaritätszuschlag', value: -soliAnnual },
@@ -584,7 +793,6 @@
       return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
     }).join('');
 
-    // Bar chart
     const bars = [
       { label: 'Nettoeinkommen', val: netMonthly, color: '#1a7a4a' },
       { label: 'Einkommensteuer', val: monthlyIncomeTax, color: '#c0392b' },
@@ -593,7 +801,6 @@
       { label: 'Pflegeversicherung', val: pv, color: '#2980b9' },
       { label: 'Arbeitslosenversicherung', val: alv, color: '#7f8c8d' },
     ];
-    const maxVal = grossMonthly;
     document.getElementById('barChart').innerHTML = bars.map(b => `
       <div class="bar-row">
         <div class="bar-meta">
@@ -601,7 +808,103 @@
           <span>${fmt(b.val)} (${((b.val/grossMonthly)*100).toFixed(1)}%)</span>
         </div>
         <div class="bar-track">
-          <div class="bar-fill" style="background:${b.color};width:${(b.val/maxVal*100).toFixed(1)}%"></div>
+          <div class="bar-fill" style="background:${b.color};width:${(b.val/grossMonthly*100).toFixed(1)}%"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ─── BRUTTO → NETTO ──────────────────────────────────────────────────────
+  function calculateBruttoToNetto() {
+    const rawVal = parseFloat(document.getElementById('salaryInput').value);
+    if (!rawVal || rawVal <= 0) { alert('Bitte Bruttogehalt eingeben.'); return; }
+    const grossMonthly = mode === 'monthly' ? rawVal : rawVal / 12;
+    renderResults(grossMonthly, computeDeductions(grossMonthly));
+  }
+
+  // ─── NETTO → BRUTTO (binary search iteration) ────────────────────────────
+  function calculateNettoToBrutto() {
+    const rawVal = parseFloat(document.getElementById('salaryInput').value);
+    if (!rawVal || rawVal <= 0) { alert('Bitte Nettowunsch eingeben.'); return; }
+    const targetNetMonthly = mode === 'monthly' ? rawVal : rawVal / 12;
+
+    // Binary search: find gross such that (gross - deductions) ≈ targetNet
+    let lo = targetNetMonthly, hi = targetNetMonthly * 3;
+    for (let i = 0; i < 80; i++) {
+      const mid = (lo + hi) / 2;
+      const ded = computeDeductions(mid);
+      const net = mid - ded.totalMonthly;
+      if (net < targetNetMonthly) lo = mid;
+      else hi = mid;
+      if (Math.abs(net - targetNetMonthly) < 0.01) break;
+    }
+    const grossMonthly = (lo + hi) / 2;
+    const deductions   = computeDeductions(grossMonthly);
+    const netMonthly   = grossMonthly - deductions.totalMonthly;
+    const netAnnual    = netMonthly * 12;
+    const grossAnnual  = grossMonthly * 12;
+
+    document.getElementById('results').style.display = '';
+    document.getElementById('resultsRight').style.display = '';
+
+    // Show BRUTTO in the result boxes
+    document.getElementById('netMonthly').textContent = fmt(grossMonthly);
+    document.getElementById('netAnnual').textContent  = fmt(grossAnnual);
+    document.getElementById('resLabelMonthly').textContent = 'Brutto / Monat';
+    document.getElementById('resLabelAnnual').textContent  = 'Brutto / Jahr';
+    document.getElementById('resultPanelTitle').textContent = '04 — Erforderliches Brutto';
+
+    // Breakdown shows how we arrive at the target net
+    const { rv, alv, pv, kvMonthly, monthlyIncomeTax, soliMonthly,
+            annualIncomeTax, soliAnnual, kvType, extraKVRate } = deductions;
+
+    const rows = [
+      { label: 'Erforderliches Brutto', value: grossMonthly, cls: 'row-gross' },
+      { label: '— Einkommensteuer', value: -monthlyIncomeTax },
+      { label: '— Solidaritätszuschlag', value: -soliMonthly },
+      { label: 'Sozialabgaben', value: null, cls: 'row-section' },
+      { label: '— Rentenversicherung (9,3%)', value: -rv },
+      { label: '— Arbeitslosenversicherung (1,3%)', value: -alv },
+      { label: kvType === 'public' ? `— Krankenversicherung (${(7.3 + extraKVRate*100).toFixed(1)}%)` : '— Krankenversicherung (PKV)', value: -kvMonthly },
+      { label: '— Pflegeversicherung (1,70%)', value: -pv },
+      { label: 'Ergibt Netto ≈', value: netMonthly, cls: 'row-net' },
+    ];
+    document.getElementById('breakdownTable').innerHTML = rows.map(r => {
+      if (r.value === null) return `<tr class="${r.cls||''}"><td colspan="2">${r.label}</td></tr>`;
+      const disp = r.value < 0 ? '−' + fmt(Math.abs(r.value)) : fmt(r.value);
+      return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
+    }).join('');
+
+    document.getElementById('annualTable').innerHTML = [
+      { label: 'Erforderl. Brutto / Jahr', value: grossAnnual, cls: 'row-gross' },
+      { label: '— Einkommensteuer', value: -annualIncomeTax },
+      { label: '— Solidaritätszuschlag (0% till x-Tier)', value: -soliAnnual },
+      { label: '— Rentenversicherung (9,3% AT-Teil)', value: -rv * 12 },
+      { label: '— Arbeitslosenversicherung (1,3%)', value: -alv * 12 },
+      { label: '— Krankenversicherung (7,3+1,34% AT-Teil)', value: -kvMonthly * 12 },
+      { label: '— Pflegeversicherung (2.4%)', value: -pv * 12 },
+      { label: 'Netto / Jahr ≈', value: netAnnual, cls: 'row-net' },
+    ].map(r => {
+      const disp = r.value < 0 ? '−' + fmt(Math.abs(r.value)) : fmt(r.value);
+      return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
+    }).join('');
+
+    const bars = [
+      { label: 'Gewünschtes Netto', val: netMonthly, color: '#1a7a4a' },
+      { label: 'Einkommensteuer', val: monthlyIncomeTax, color: '#c0392b' },
+      { label: 'Krankenversicherung', val: kvMonthly, color: '#e67e22' },
+      { label: 'Rentenversicherung', val: rv, color: '#8e44ad' },
+      { label: 'Pflegeversicherung', val: pv, color: '#2980b9' },
+      { label: 'Arbeitslosenversicherung', val: alv, color: '#7f8c8d' },
+    ];
+    document.getElementById('barChart').innerHTML = bars.map(b => `
+      <div class="bar-row">
+        <div class="bar-meta">
+          <span>${b.label}</span>
+          <span>${fmt(b.val)} (${((b.val/grossMonthly)*100).toFixed(1)}%)</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="background:${b.color};width:${(b.val/grossMonthly*100).toFixed(1)}%"></div>
         </div>
       </div>
     `).join('');
