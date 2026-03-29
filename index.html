@@ -713,7 +713,7 @@
   // ─── HELPER: compute all deductions from a given monthly gross ──────────
   function computeDeductions(grossMonthly) {
     const kvType      = document.getElementById('kvType').value;
-    const extraKVRate = parseFloat(document.getElementById('extraKV').value || 1.7) / 100;
+    const extraKVRate = parseFloat(document.getElementById('extraKV').value || 1.34) / 100;
     const privateKV   = parseFloat(document.getElementById('privateKV').value || 0);
 
     const BBG_RV  = 7550;
@@ -722,7 +722,7 @@
     const rateRV  = 0.093;
     const rateALV = 0.013;
     const rateKV  = 0.073;
-    const ratePV  = 0.0170;
+    const ratePV  = 0.0240;
 
     const baseRV = Math.min(grossMonthly, BBG_RV);
     const baseKV = Math.min(grossMonthly, BBG_KV);
@@ -782,12 +782,12 @@
     document.getElementById('annualTable').innerHTML = [
       { label: 'Brutto / Jahr', value: grossAnnual, cls: 'row-gross' },
       { label: '— Einkommensteuer', value: -annualIncomeTax },
-      { label: '— Solidaritätszuschlag', value: -soliAnnual },
-      { label: '— Rentenversicherung', value: -rv * 12 },
-      { label: '— Arbeitslosenversicherung', value: -alv * 12 },
-      { label: '— Krankenversicherung', value: -kvMonthly * 12 },
-      { label: '— Pflegeversicherung', value: -pv * 12 },
-      { label: 'Netto / Jahr', value: netAnnual, cls: 'row-net' },
+      { label: '— Solidaritätszuschlag (0% till x-Tier)', value: -soliAnnual },
+      { label: '— Rentenversicherung (9,3% AT-Teil)', value: -rv * 12 },
+      { label: '— Arbeitslosenversicherung(1,3%)', value: -alv * 12 },
+      { label: '— Krankenversicherung (7,3+1,34% AT-Teil)', value: -kvMonthly * 12 },
+      { label: '— Pflegeversicherung(2.4%)', value: -pv * 12 },
+      { label: 'Netto / Jahr / Monat', value: netAnnual, value: netAnnual /12, cls: 'row-net' },
     ].map(r => {
       const disp = r.value < 0 ? '−' + fmt(Math.abs(r.value)) : fmt(r.value);
       return `<tr class="${r.cls||''}"><td>${r.label}</td><td>${disp}</td></tr>`;
